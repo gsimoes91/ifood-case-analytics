@@ -1,0 +1,14 @@
+# .gitignore
+__pycache__/
+*.py[cod]
+*.parquet
+*.gz
+.pytest_cache/
+.venv/
+.vscode/
+.idea/
+.env
+dist/
+data/
+derby.log
+metastore_db/
