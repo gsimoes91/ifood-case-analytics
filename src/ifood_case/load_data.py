@@ -1,0 +1,89 @@
+import os
+import tarfile
+import requests
+
+from loguru import logger
+from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql.types import StructType, StructField, StringType, FloatType, IntegerType, TimestampType, ArrayType
+
+from src.ifood_case.config import Config
+
+
+class load_data:
+    """
+    classe para que a sessao do spark fique armazenada e para deixar o codigo mais limpo nas chamadas
+    """
+    def __init__(self, spark: SparkSession):
+        self.spark = spark
+
+    def download_file(self, filename: str):
+        """
+        funcao para baixar os arquivos
+        """
+        url = Config.DATA_URLS.get(filename)
+        local_path = Config.DATA_PATH / filename
+        
+        try:
+            logger.info(f"Iniciando download: {filename}")
+            response = requests.get(url, timeout=30)
+            response.raise_for_status()
+            
+            with open(local_path, 'wb') as f:
+                f.write(response.content)
+                
+            logger.success(f"Arquivo salvo com sucesso: {filename}")
+            
+        except Exception as e:
+            logger.error(f"Falha ao baixar {filename}: {str(e)}")
+            raise
+
+    def get_orders(self) -> DataFrame:
+        self.download_file("order.json.gz")
+        
+        schema = StructType([
+            StructField("order_id", StringType(), True),
+            StructField("customer_id", StringType(), True),
+            StructField("merchant_id", StringType(), True),
+            StructField("order_total_amount", FloatType(), True),
+            StructField("order_created_at", TimestampType(), True),
+            StructField("items", ArrayType(StructType([
+                StructField("name", StringType(), True),
+                StructField("unitPrice", FloatType(), True),
+                StructField("quantity", IntegerType(), True),
+                StructField("externalId", StringType(), True),
+            ])), True)
+        ])
+        
+        df = self.spark.read.schema(schema).json(str(Config.DATA_PATH / "order.json.gz"))
+        logger.info("DataFrame de pedidos (orders) carregado.")
+        return df
+
+    def get_consumers(self) -> DataFrame:
+        self.download_file("consumer.csv.gz")
+        path = str(Config.DATA_PATH / "consumer.csv.gz")
+        df = self.spark.read.option("header", "true").option("inferSchema", "true").csv(path)
+        logger.info("DataFrame de consumidores carregado.")
+        return df
+
+    def get_restaurants(self) -> DataFrame:
+        self.download_file("restaurant.csv.gz")
+        path = str(Config.DATA_PATH / "restaurant.csv.gz")
+        df = self.spark.read.option("header", "true").option("inferSchema", "true").csv(path)
+        logger.info("DataFrame de restaurantes carregado.")
+        return df
+
+    def get_ab_test(self) -> DataFrame:
+        self.download_file("ab_test_ref.tar.gz")
+        try:
+            logger.info("Extraindo arquivos do pacote tar.gz...")
+            with tarfile.open(Config.DATA_PATH / "ab_test_ref.tar.gz", "r:gz") as tar:
+                tar.extractall(path=Config.DATA_PATH)
+            
+            df = self.spark.read.option("header", "true").option("inferSchema", "true").csv(
+                str(Config.DATA_PATH / "ab_test_ref.csv")
+            )
+            logger.success("DataFrame de teste A/B carregado após extração.")
+            return df
+        except Exception as e:
+            logger.error(f"Erro ao processar arquivo comprimido: {e}")
+            raise
