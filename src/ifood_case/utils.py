@@ -9,7 +9,7 @@ def get_spark_session(app_name: str = "iFood_Case") -> SparkSession:
 
     #padronizando salvamento dos arquivos de log
     logger.add(
-        "data_processing_{time:YYYY-MM-DD}.log",
+        Config.LOG_PATH / "data_processing_{time:YYYY-MM-DD}.log",
         rotation="00:00",        # Novo arquivo todo dia à meia-noite
         retention="1 week",      # Mantém apenas a última semana
         format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}",

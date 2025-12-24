@@ -9,8 +9,11 @@ class Config:
     #acha a raiz do projeto automaticamente para nao ter conflito com pasta local
     PROJECT_ROOT = Path(__file__).parent.parent.parent
     
-    #onde os dados serao baixados para posterior tratamento
-    DATA_PATH = Path(os.getenv("DATA_PATH", PROJECT_ROOT / "data" / "raw"))
+    #onde os dados serao baixados e armazenados para posterior tratamento
+    DATA_RAW = Path(os.getenv("DATA_RAW", PROJECT_ROOT / "data" / "raw"))
+    DATA_PROCESSED = Path(os.getenv("DATA_PROCESSED", PROJECT_ROOT / "data" / "processed"))
+    REPORTS_PATH = Path(os.getenv("REPORTS_PATH", PROJECT_ROOT / "reports"))
+    LOG_PATH = PROJECT_ROOT / "logs"
     
     #nesse caso, informando as urls por ser algo estatico, mas varia conforme projeto
     DATA_URLS = {
@@ -22,5 +25,8 @@ class Config:
 
     @classmethod
     def create_dirs(cls):
-        #Cria a pasta data/raw se ela não existir
-        os.makedirs(cls.DATA_PATH, exist_ok=True)
+        #Cria as pastas se não existirem
+        os.makedirs(cls.DATA_RAW, exist_ok=True)
+        os.makedirs(cls.DATA_PROCESSED, exist_ok=True)
+        os.makedirs(cls.REPORTS_PATH, exist_ok=True)
+        os.makedirs(cls.LOG_PATH, exist_ok=True)
