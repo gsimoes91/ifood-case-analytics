@@ -22,7 +22,6 @@ ifood-case-analytics/
 │   ├── transform.py           # Módulo de tratamento de dados
 │   └── utils.py               # Funções utilitárias (Logging, Setups)
 ├── .gitignore                 # Arquivos ignorados
-├── README.md                  # Documentação do projeto
 ├── main.py                    # Script principal de orquestração do pipeline
 ├── pyproject.toml             # Definição de dependências (Poetry)
 └── README.md                  # Documentação do projeto
