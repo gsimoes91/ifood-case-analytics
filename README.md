@@ -6,6 +6,28 @@ O projeto utiliza **PySpark** para processamento de dados massivos e **Poetry** 
 
 ---
 
+## Estrutura do Projeto
+```text
+ifood-case-analytics/
+├── data/                      # Dados brutos e processados (ignorados no git)
+├── logs/                      # Dados de log (ignorados no git)
+├── notebooks/                 # Notebooks de análise (Jupyter)
+│   ├── 01_exploracao_ab.ipynb # Cálculos de KPI, Lift, ROI e validação estatística
+│   └── 02_segmentacao.ipynb   # Análise de perfis (Lealdade, Geo, Device) e conclusão
+├── reports/                   # Pasta para armazenar o relatorio final
+│   └── Relatorio Final.pdf
+├── src/                       # Código fonte (ETL e funções auxiliares)
+│   ├── config.py              # Configurações globais e caminhos de arquivos
+│   ├── load_data.py           # Módulo de ingestão de dados
+│   ├── transform.py           # Módulo de tratamento de dados
+│   └── utils.py               # Funções utilitárias (Logging, Setups)
+├── .gitignore                 # Arquivos ignorados
+├── README.md                  # Documentação do projeto
+├── main.py                    # Script principal de orquestração do pipeline
+├── pyproject.toml             # Definição de dependências (Poetry)
+└── README.md                  # Documentação do projeto
+```
+
 ## Requisitos de Sistema
 
 Para executar este projeto, você precisará de:
@@ -33,11 +55,6 @@ Este projeto utiliza o arquivo pyproject.toml para travar as versões das biblio
 poetry install
 ```
 
-### 3. Ativar o Ambiente Virtual
-```bash
-poetry shell
-```
-
 ## Como Executar o Projeto
 A execução deve seguir a ordem lógica abaixo para garantir que os dados sejam processados e as tabelas geradas corretamente.
 
@@ -49,10 +66,10 @@ Execute o script principal. Este passo é obrigatório, pois ele:
 * Cria as pastas de data/processed necessárias para os notebooks.
 
 ```bash
-# Certifique-se de estar dentro do ambiente (poetry shell)
+# Certifique-se de estar dentro do ambiente
 poetry run python main.py
 
-(Aguarde até visualizar a mensagem de "Processamento concluído com sucesso" nos logs).
+(Aguarde até visualizar a mensagem de "Pipeline executado com sucesso" nos logs).
 ```
 
 Passo 2: Análises Exploratórias e KPIs
@@ -60,7 +77,10 @@ Passo 2: Análises Exploratórias e KPIs
 Abra o Jupyter Notebook ou Lab:
 
 ```bash
-jupyter lab
+poetry run jupyter lab
+
+Caso o jupyter lab não inicie no navegador, basta copiar o link do terminal que inicia com localhost, algo como:
+http://localhost:8888/lab?token=7aab7f20e4a95010e9079cdff3a2b3529f94e5d9b50dd7af
 ```
 
 Execute o arquivo: notebooks/01_exploracao_ab.ipynb
@@ -71,28 +91,6 @@ Passo 3: Segmentação e Recomendação Final
 Execute o arquivo: notebooks/02_segmentacao.ipynb
 
 Contém as análises de perfil (Lealdade, Geografia, Device), comportamento do usuário e a carta final com recomendações estratégicas.
-
-## Estrutura do Projeto
-```text
-ifood-case-analytics/
-├── data/                      # Dados brutos e processados (ignorados no git)
-├── logs/                      # Dados de log (ignorados no git)
-├── notebooks/                 # Notebooks de análise (Jupyter)
-│   ├── 01_exploracao_ab.ipynb # Cálculos de KPI, Lift, ROI e validação estatística
-│   └── 02_segmentacao.ipynb   # Análise de perfis (Lealdade, Geo, Device) e conclusão
-├── reports/                   # Pasta para armazenar o relatorio final
-│   └── Relatorio Final.pdf
-├── src/                       # Código fonte (ETL e funções auxiliares)
-│   ├── config.py              # Configurações globais e caminhos de arquivos
-│   ├── load_data.py           # Módulo de ingestão de dados
-│   ├── transform.py           # Módulo de tratamento de dados
-│   └── utils.py               # Funções utilitárias (Logging, Setups)
-├── .gitignore                 # Arquivos ignorados
-├── README.md                  # Documentação do projeto
-├── main.py                    # Script principal de orquestração do pipeline
-├── pyproject.toml             # Definição de dependências (Poetry)
-└── README.md                  # Documentação do projeto
-```
 
 ## Resumo dos Resultados (Highlights)
 A análise do teste A/B revelou os seguintes insights estratégicos:
