@@ -87,7 +87,7 @@ Execute o arquivo: notebooks/01_exploracao_ab.ipynb
 
 Contém o cálculo do Lift, significância estatística, validação de safra e métricas financeiras (ROI).
 
-Passo 3: Segmentação e Recomendação Final
+Passo 3: Segmentação e Recomendação Final  
 Execute o arquivo: notebooks/02_segmentacao.ipynb
 
 Contém as análises de perfil (Lealdade, Geografia, Device), comportamento do usuário e a carta final com recomendações estratégicas.
