@@ -1,4 +1,4 @@
-## iFood CRM & Growth Analytics Case
+## iFood Analytics Case
 
 Este repositório contém a solução técnica e estratégica para o desafio de Data Analytics, focado na análise de um Teste A/B de campanhas de incentivo (cupom).
 
