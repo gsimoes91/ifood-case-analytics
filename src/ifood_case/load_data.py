@@ -5,7 +5,7 @@ import requests
 from pathlib import Path
 from loguru import logger
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.types import StructType, StructField, StringType, FloatType, IntegerType, TimestampType, ArrayType
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, FloatType, IntegerType, TimestampType, ArrayType
 
 from src.ifood_case.config import Config
 
@@ -46,17 +46,12 @@ class LoadData:
             StructField("order_id", StringType(), True),
             StructField("customer_id", StringType(), True),
             StructField("merchant_id", StringType(), True),
-            StructField("order_created_at", TimestampType(), True),
-            StructField("order_total_amount", FloatType(), True),
+            StructField("order_created_at", StringType(), True),
+            StructField("order_total_amount", DoubleType(), True),
             StructField("origin_platform", StringType(), True),
             StructField("delivery_address_city", StringType(), True),
             StructField("delivery_address_state", StringType(), True),
-            StructField("items", ArrayType(StructType([
-                StructField("name", StringType(), True),
-                StructField("unitPrice", FloatType(), True),
-                StructField("quantity", IntegerType(), True),
-                StructField("externalId", StringType(), True),
-            ])), True)
+            StructField("items", StringType(), True)
         ])
         
         df = self.spark.read.schema(schema).json(str(Config.DATA_RAW / "order.json.gz"))

@@ -10,5 +10,6 @@ __pycache__/
 .env
 dist/
 data/
+logs/
 derby.log
 metastore_db/

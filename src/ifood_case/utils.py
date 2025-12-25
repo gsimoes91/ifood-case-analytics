@@ -4,8 +4,6 @@ from pyspark.sql import SparkSession
 from src.ifood_case.config import Config
 
 def get_spark_session(app_name: str = "iFood_Case") -> SparkSession:
-    #Cria a pasta data/raw se ela nao existir
-    Config.create_dirs()
 
     #padronizando salvamento dos arquivos de log
     logger.add(
