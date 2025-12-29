@@ -30,7 +30,7 @@ ifood-case-analytics/
 ## Requisitos de Sistema
 
 Para executar este projeto, você precisará de:
-* **Python 3.10+**
+* **Python >= 3.10 e < 3.13**
 * **Poetry** (Gerenciador de dependências)
 * **Java 8 ou 11** (Necessário para rodar o Apache Spark localmente)
 
