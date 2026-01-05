@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Carrega variáveis do arquivo .env (se você criar um no futuro)
+# Carrega variáveis do arquivo .env
 load_dotenv()
 
 class Config:
@@ -13,7 +13,7 @@ class Config:
     DATA_RAW = Path(os.getenv("DATA_RAW", PROJECT_ROOT / "data" / "raw"))
     DATA_PROCESSED = Path(os.getenv("DATA_PROCESSED", PROJECT_ROOT / "data" / "processed"))
     REPORTS_PATH = Path(os.getenv("REPORTS_PATH", PROJECT_ROOT / "reports"))
-    LOG_PATH = PROJECT_ROOT / "logs"
+    LOG_PATH = Path(os.getenv("LOG_PATH", PROJECT_ROOT / "logs"))
     
     #nesse caso, informando as urls por ser algo estatico, mas varia conforme projeto
     DATA_URLS = {
