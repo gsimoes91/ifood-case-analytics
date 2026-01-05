@@ -16,7 +16,6 @@ class LoadData:
     """
     def __init__(self, spark: SparkSession):
         self.spark = spark
-        Config.create_dirs()
 
     def download_file(self, filename: str):
         """
